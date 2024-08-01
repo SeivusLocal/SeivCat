@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeivCat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .search-container {
+            margin-top: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .search-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-top: 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .search-button:hover {
+            background-color: #45a049;
+        }
+        .suggestions {
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            display: none;
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: white;
+        }
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchBar = document.querySelector('.search-bar');
+            const searchButton = document.querySelector('.search-button');
+            const suggestionsContainer = document.querySelector('.suggestions');
+
+            const items = ['maçã', 'banana', 'morango', 'uva', 'laranja']; // Lista inicial de itens
+
+            searchBar.addEventListener('input', () => {
+                const query = searchBar.value.toLowerCase();
+                suggestionsContainer.innerHTML = '';
+
+                if (query.length > 0) {
+                    const filteredItems = items.filter(item => item.includes(query));
+
+                    filteredItems.forEach(item => {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.textContent = item;
+                        suggestionItem.classList.add('suggestion-item');
+                        suggestionItem.addEventListener('click', () => {
+                            searchBar.value = item;
+                            window.location.href = `${item}.html`;
+                        });
+                        suggestionsContainer.appendChild(suggestionItem);
+                    });
+
+                    suggestionsContainer.style.display = 'block';
+                } else {
+                    suggestionsContainer.style.display = 'none';
+                }
+            });
+
+            searchButton.addEventListener('click', () => {
+                const query = searchBar.value.toLowerCase();
+                window.location.href = `${query}.html`;
+            });
+
+            searchBar.addEventListener('blur', () => {
+                setTimeout(() => {
+                    suggestionsContainer.style.display = 'none';
+                }, 100);
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>SeivCat</h1>
+        <p>Pesquise se gatos podem comer certos alimentos e produtos</p>
+    </header>
+    <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Digite o nome do item">
+        <button class="search-button">Buscar</button>
+        <div class="suggestions"></div>
+    </div>
+</body>
+</html>
